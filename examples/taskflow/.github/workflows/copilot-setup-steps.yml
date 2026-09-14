@@ -1,0 +1,51 @@
+# Environment bootstrap for the GitHub Copilot coding agent.
+#
+# The job name MUST be exactly `copilot-setup-steps` — GitHub looks for that
+# name and runs it to prepare the agent's ephemeral environment before it
+# starts work on an assigned issue. Anything the agent needs pre-installed or
+# pre-warmed belongs here.
+
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch: {}
+  # Also runs automatically before the coding agent starts.
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # Warm both dependency caches so the agent's first test run is fast
+      # rather than spending its time downloading.
+      - name: Warm Maven dependencies
+        working-directory: backend
+        run: mvn -B -q dependency:go-offline
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # Prove the environment is usable before handing it to the agent.
+      # Failing here is far cheaper than failing mid-task.
+      - name: Smoke check
+        run: |
+          cd backend && mvn -B -q compile
+          cd ../frontend && npx tsc --noEmit

@@ -1,0 +1,37 @@
+{
+  "//": "MCP servers available to Copilot Agent Mode in this workspace.",
+  "//docs": "See docs/FRAMEWORK.md → 'Extending with MCP'.",
+  "//security": "Never commit credentials. Use the `inputs` prompt below, which asks at connect time and is not persisted.",
+
+  "servers": {
+    "//filesystem": "Lets Agent Mode read files outside the editor's open set.",
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ]
+    },
+
+    "//h2": "Optional: inspect the running app's schema so Copilot writes queries against real columns instead of guessing. Start the backend first (mvn spring-boot:run).",
+    "taskflow-db": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${input:database_url}"
+      }
+    }
+  },
+
+  "inputs": [
+    {
+      "id": "database_url",
+      "type": "promptString",
+      "description": "Read-only connection string for a dev database (leave blank to skip)",
+      "password": true
+    }
+  ]
+}
