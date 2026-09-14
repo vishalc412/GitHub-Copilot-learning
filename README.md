@@ -9,12 +9,24 @@
 | Resource | Description | Level |
 |----------|-------------|-------|
 | [COPILOT_TUTORIAL.md](COPILOT_TUTORIAL.md) | **START HERE** - Complete instructor-led tutorial | All |
+| [training/](training/) | **3-day team training deck (HTML)** - ready to present | All |
+| [AGENTS.md](AGENTS.md) | Open-standard agent instructions (coding agent + others) | Reference |
 | [.github/copilot-instructions.md](.github/copilot-instructions.md) | Root-level Copilot configuration | Reference |
+| [Path-Specific Instructions](copilot-instructions/instructions-files/path-specific-instructions.md) | Full 4-layer instruction hierarchy explained | Reference |
 | [Python Rules](copilot-instructions/python/python-rules.md) | Python-specific guidelines | Intermediate |
 | [Java Rules](copilot-instructions/java/java-rules.md) | Java-specific guidelines | Intermediate |
 | [React Rules](copilot-instructions/react/react-rules.md) | React/TypeScript guidelines | Intermediate |
 | [Prompt Patterns](copilot-instructions/patterns/prompt-patterns.md) | Effective prompt templates | All |
 | [Mastery Rules](copilot-instructions/rules/copilot-mastery-rules.md) | Core rules and principles | Beginner |
+| **Agentic Copilot** | | |
+| [Agent Mode](copilot-instructions/agents/01-agent-mode.md) | Autonomous in-IDE editing | Intermediate |
+| [Coding Agent](copilot-instructions/agents/02-coding-agent.md) | Issue → PR automation | Intermediate |
+| [Custom Chat Modes](copilot-instructions/agents/03-custom-chat-modes.md) | Reusable agent personas | Intermediate |
+| [MCP Integration](copilot-instructions/agents/04-mcp-integration.md) | Connect external tools/data | Advanced |
+| [Extensions](copilot-instructions/agents/05-extensions.md) | Marketplace integrations | Advanced |
+| [Code Review](copilot-instructions/agents/06-code-review.md) | Automated PR review | Intermediate |
+| [Multi-Agent Workflows](copilot-instructions/agents/07-multi-agent-workflows.md) | Orchestration patterns | Expert |
+| [Copilot CLI](copilot-instructions/agents/08-copilot-cli.md) | Terminal-native agent | Intermediate |
 
 ---
 
@@ -23,47 +35,92 @@
 ```
 GitHub-Copilot-learning/
 │
-├── COPILOT_TUTORIAL.md              # Main tutorial (START HERE)
-├── README.md                         # This file
+├── AGENTS.md                          # Open-standard agent instructions
+├── COPILOT_TUTORIAL.md                # Main tutorial (START HERE)
+├── README.md                          # This file
 │
 ├── .github/
-│   └── copilot-instructions.md      # Root Copilot configuration
+│   ├── copilot-instructions.md        # Root Copilot configuration
+│   ├── instructions/                  # Path-scoped instructions (applyTo globs)
+│   │   ├── python.instructions.md
+│   │   ├── java.instructions.md
+│   │   └── react.instructions.md
+│   ├── chatmodes/                     # Custom Copilot Chat personas
+│   │   ├── architect.chatmode.md
+│   │   └── reviewer.chatmode.md
+│   └── workflows/
+│       └── copilot-setup-steps.yml    # Coding agent environment bootstrap
+│
+├── .vscode/
+│   └── mcp.json                       # Example MCP server config for Agent Mode
 │
 ├── copilot-instructions/
-│   ├── python/
-│   │   └── python-rules.md          # Python-specific rules
-│   ├── java/
-│   │   └── java-rules.md            # Java-specific rules
-│   ├── react/
-│   │   └── react-rules.md           # React/TypeScript rules
-│   ├── patterns/
-│   │   └── prompt-patterns.md       # Prompt pattern catalog
-│   └── rules/
-│       └── copilot-mastery-rules.md # Core mastery rules
+│   ├── python/python-rules.md         # Python-specific rules
+│   ├── java/java-rules.md             # Java-specific rules
+│   ├── react/react-rules.md           # React/TypeScript rules
+│   ├── patterns/prompt-patterns.md    # Prompt pattern catalog
+│   ├── rules/copilot-mastery-rules.md # Core mastery rules
+│   ├── instructions-files/
+│   │   └── path-specific-instructions.md  # Full 4-layer hierarchy explained
+│   └── agents/                        # Agentic Copilot (2025-2026 features)
+│       ├── 01-agent-mode.md
+│       ├── 02-coding-agent.md
+│       ├── 03-custom-chat-modes.md
+│       ├── 04-mcp-integration.md
+│       ├── 05-extensions.md
+│       ├── 06-code-review.md
+│       ├── 07-multi-agent-workflows.md
+│       └── 08-copilot-cli.md
+│
+├── training/                          # 3-day team training (HTML deck)
+│   ├── index.html                     # Landing page / agenda
+│   ├── day1.html                      # Foundations & prompt engineering
+│   ├── day2.html                      # Languages, testing, patterns
+│   └── day3.html                      # Agents, MCP, multi-agent workflows
 │
 └── examples/
-    ├── python/                       # Python code examples
-    ├── java/                         # Java code examples
-    └── react/                        # React code examples
+    ├── python/                        # Python code examples
+    ├── java/                          # Java code examples
+    └── react/                         # React code examples
 ```
 
 ---
 
 ## Hierarchical Instruction System
 
+### Layer 0-4: What Copilot Actually Reads (machine-facing)
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│ Layer 1  AGENTS.md                                             │
+│          Open standard · read by coding agent + other tools    │
+├───────────────────────────────────────────────────────────────┤
+│ Layer 2  .github/copilot-instructions.md                       │
+│          Repo-wide · read by EVERY Copilot surface              │
+├───────────────────────────────────────────────────────────────┤
+│ Layer 3  .github/instructions/*.instructions.md                │
+│          Path-scoped via `applyTo` glob (python/java/react)     │
+├───────────────────────────────────────────────────────────────┤
+│ Layer 4  .github/chatmodes/*.chatmode.md                       │
+│          Active only when that persona is explicitly selected   │
+└───────────────────────────────────────────────────────────────┘
+```
+Full explanation: [path-specific-instructions.md](copilot-instructions/instructions-files/path-specific-instructions.md)
+
+### The Curriculum (human-facing)
+
 ```
                     ┌─────────────────────────────┐
-                    │  .github/copilot-           │
-                    │  instructions.md            │
-                    │  (Global Rules)             │
+                    │  copilot-mastery-rules.md    │
+                    │  (Core Principles)           │
                     └─────────────┬───────────────┘
                                   │
           ┌───────────────────────┼───────────────────────┐
           │                       │                       │
           ▼                       ▼                       ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  python-rules   │    │   java-rules    │    │  react-rules    │
-│  (Language)     │    │   (Language)    │    │  (Language)     │
+│  python-rules    │    │   java-rules    │    │  react-rules    │
+│  (Language)       │    │   (Language)     │    │  (Language)      │
 └────────┬────────┘    └────────┬────────┘    └────────┬────────┘
          │                      │                      │
          └──────────────────────┼──────────────────────┘
@@ -71,10 +128,12 @@ GitHub-Copilot-learning/
                     ┌───────────┴───────────┐
                     │                       │
                     ▼                       ▼
-          ┌─────────────────┐    ┌─────────────────┐
-          │ prompt-patterns │    │ mastery-rules   │
-          │ (Techniques)    │    │ (Principles)    │
-          └─────────────────┘    └─────────────────┘
+          ┌─────────────────┐    ┌─────────────────────┐
+          │ prompt-patterns  │    │ agents/ (01-08)      │
+          │ (Techniques)     │    │ Agent Mode, coding   │
+          │                  │    │ agent, MCP, chat     │
+          │                  │    │ modes, multi-agent   │
+          └─────────────────┘    └─────────────────────┘
 ```
 
 ---
@@ -162,6 +221,40 @@ Ongoing: Enable team
 **Purpose**: Complete learning curriculum
 **Use**: Follow week by week
 **Contains**: Lessons, exercises, assignments, certification
+
+### 6. `AGENTS.md` + `copilot-instructions/agents/*`
+**Purpose**: The modern, agentic side of Copilot — Agent Mode, the
+autonomous coding agent, MCP, custom chat modes, code review, extensions,
+and multi-agent orchestration
+**Use**: Reference once you've mastered inline generation and want to
+delegate whole tasks, not just complete lines
+**Contains**: 8 focused guides + working example config files
+(`.github/instructions/`, `.github/chatmodes/`, `.vscode/mcp.json`,
+`.github/workflows/copilot-setup-steps.yml`)
+
+### 7. `training/` (HTML)
+**Purpose**: A ready-to-present 3-day team training, one file per day
+**Use**: Open `training/index.html` in a browser, present live or share
+the link internally
+**Contains**: Slide-style HTML covering foundations → language mastery →
+agentic workflows, with live exercises embedded per session
+
+---
+
+## 3-Day Team Training (Ready to Present)
+
+A condensed, presentation-ready version of this whole curriculum lives in
+[`training/`](training/) as self-contained HTML — no build step, just open
+in a browser or host as a static site.
+
+| Day | Focus | File |
+|-----|-------|------|
+| 1 | Foundations: setup, prompt engineering, context, core rules | [training/day1.html](training/day1.html) |
+| 2 | Language mastery: Python/Java/React patterns, TDD, design patterns | [training/day2.html](training/day2.html) |
+| 3 | Agentic Copilot: Agent Mode, coding agent, MCP, multi-agent workflows | [training/day3.html](training/day3.html) |
+
+Start at [`training/index.html`](training/index.html) for the agenda and
+navigation between days.
 
 ---
 

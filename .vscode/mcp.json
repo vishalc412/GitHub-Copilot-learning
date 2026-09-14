@@ -1,0 +1,34 @@
+{
+  "//": "Example MCP server configuration for Copilot Agent Mode in VS Code.",
+  "//see": "copilot-instructions/agents/04-mcp-integration.md",
+  "//warning": "Never commit real credentials. Use the `inputs` prompt mechanism below, or environment variables injected outside this file.",
+
+  "servers": {
+    "filesystem-readonly": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ]
+    },
+    "postgres-sandbox": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${input:database_url}"
+      }
+    }
+  },
+
+  "inputs": [
+    {
+      "id": "database_url",
+      "type": "promptString",
+      "description": "Postgres connection string (sandbox/dev DB only)",
+      "password": true
+    }
+  ]
+}

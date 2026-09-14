@@ -1,0 +1,56 @@
+# Environment bootstrap for GitHub Copilot's coding agent.
+#
+# The job name below MUST be exactly `copilot-setup-steps` — GitHub
+# recognizes this name and runs it automatically to prepare the ephemeral
+# environment before the coding agent starts working on an assigned issue.
+#
+# See: copilot-instructions/agents/02-coding-agent.md
+
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch: {}
+  # GitHub also triggers this automatically before the coding agent starts;
+  # workflow_dispatch is kept so you can run/test it manually too.
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- Adjust the toolchains below to match this repo's stack ---
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "maven"
+
+      # --- Install dependencies for whichever stacks are actually present ---
+
+      - name: Install Node dependencies (if present)
+        run: '[ -f package.json ] && npm ci || echo "no package.json, skipping"'
+
+      - name: Install Python dependencies (if present)
+        run: '[ -f requirements.txt ] && pip install -r requirements.txt || echo "no requirements.txt, skipping"'
+
+      # --- Anything the agent needs pre-warmed goes here ---
+      # e.g. database migrations, seed data, build caches.
+      # Use ${{ secrets.MY_SECRET }} for any credentials — never hardcode.

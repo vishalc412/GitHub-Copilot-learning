@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GitHub Copilot Mastery — 3-Day Team Training</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand"><span class="logo-dot"></span> Copilot Mastery Training</a>
+  <div class="day-tabs">
+    <a href="index.html" class="active">Overview</a>
+    <a href="day1.html">Day 1 · Foundations</a>
+    <a href="day2.html">Day 2 · Languages</a>
+    <a href="day3.html">Day 3 · Agents</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">● Instructor-Led · Team Training</span>
+    <h1>GitHub Copilot Mastery<br/>3-Day Intensive</h1>
+    <p class="lede">
+      A hands-on, in-depth program that takes your team from first
+      suggestion to autonomous multi-agent workflows — covering prompt
+      engineering, language-specific mastery, testing, design patterns,
+      and every current agentic Copilot surface (Agent Mode, the coding
+      agent, MCP, custom chat modes, and orchestration).
+    </p>
+    <div class="meta-row">
+      <span class="pill">🕒 3 days · ~7 hrs/day</span>
+      <span class="pill">👥 Team / cohort format</span>
+      <span class="pill">💻 Hands-on, laptop required</span>
+      <span class="pill">🎓 Maps to Copilot Practitioner → Expert certification</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Who This Is For</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Individual Contributors</h4>
+        <p>Developers who want to move from occasional autocomplete use to
+        deliberate, high-leverage Copilot usage across their daily work.</p>
+      </div>
+      <div class="card">
+        <h4>Tech Leads</h4>
+        <p>Own the team's instruction files, chat modes, and coding-agent
+        workflows so the whole team benefits from consistent conventions.</p>
+      </div>
+      <div class="card">
+        <h4>Engineering Managers</h4>
+        <p>Understand what's realistic to delegate to agents, what needs
+        human review, and how to measure adoption and impact.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Prerequisites</h2>
+    </div>
+    <ul>
+      <li>A GitHub account with Copilot access (Individual, Business, or Enterprise)</li>
+      <li>VS Code (or JetBrains/Visual Studio) installed, with permissions to install extensions</li>
+      <li>Basic programming experience in at least one of: Python, Java, TypeScript/React</li>
+      <li>A sandbox/test repository the team can experiment in freely (not production)</li>
+      <li>For Day 3: repo admin access to configure Actions workflows and repository settings</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Three-Day Arc</h2>
+    </div>
+    <div class="agenda">
+      <div class="agenda-row">
+        <span class="agenda-time">DAY 1</span>
+        <div class="agenda-title">
+          Foundations &amp; Prompt Engineering
+          <small>Setup, how Copilot uses context, the 10 mastery rules, writing prompts that work</small>
+        </div>
+        <a href="day1.html"><span class="agenda-tag tag-lecture">View Day 1 →</span></a>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">DAY 2</span>
+        <div class="agenda-title">
+          Language Mastery, Testing &amp; Design Patterns
+          <small>Python / Java / React deep dives, TDD with Copilot, design pattern sprints, review calibration</small>
+        </div>
+        <a href="day2.html"><span class="agenda-tag tag-handson">View Day 2 →</span></a>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">DAY 3</span>
+        <div class="agenda-title">
+          Agentic Copilot &amp; Multi-Agent Workflows
+          <small>Agent Mode, the autonomous coding agent, custom chat modes, MCP, orchestration patterns</small>
+        </div>
+        <a href="day3.html"><span class="agenda-tag tag-workshop">View Day 3 →</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>What Ships With This Repo</h2>
+    </div>
+    <p class="section-sub">Every example in this training references real, working files already in this repository — nothing is hypothetical.</p>
+    <table class="data-table">
+      <tr><th>File</th><th>Used On</th></tr>
+      <tr><td><code>AGENTS.md</code></td><td>Day 3 — coding agent setup</td></tr>
+      <tr><td><code>.github/copilot-instructions.md</code></td><td>Day 1 — context &amp; rules</td></tr>
+      <tr><td><code>.github/instructions/*.instructions.md</code></td><td>Day 2 — language-specific rules</td></tr>
+      <tr><td><code>.github/chatmodes/*.chatmode.md</code></td><td>Day 3 — custom personas</td></tr>
+      <tr><td><code>.github/workflows/copilot-setup-steps.yml</code></td><td>Day 3 — coding agent environment</td></tr>
+      <tr><td><code>.vscode/mcp.json</code></td><td>Day 3 — MCP integration</td></tr>
+      <tr><td><code>copilot-instructions/patterns/prompt-patterns.md</code></td><td>Day 1 — prompt patterns</td></tr>
+      <tr><td><code>copilot-instructions/agents/*.md</code></td><td>Day 3 — full reference reading</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Facilitator Notes</h2>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-head">💡 Running This Live</div>
+      <ul>
+        <li>Each session has a suggested duration — adjust for your team's pace, but keep hands-on time (green tags) intact; that's where retention happens.</li>
+        <li>Pair less experienced and more experienced developers together for exercises.</li>
+        <li>Have a shared "wins &amp; fails" channel for the cohort to post interesting Copilot outputs — good and bad — as they go.</li>
+        <li>Day 3 requires an actual GitHub repo with Actions enabled — set this up before the session, not during it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day-footer-nav">
+    <span></span>
+    <a href="day1.html" class="primary">Start Day 1 →</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  GitHub Copilot Mastery System · Training Deck v1.0 · Companion to <code>COPILOT_TUTORIAL.md</code>
+</footer>
+
+</body>
+</html>

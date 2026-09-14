@@ -1,0 +1,620 @@
+<title>TaskFlow Copilot Framework</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground: #fbfbfd;
+    --surface: #ffffff;
+    --surface-sunk: #f4f6fa;
+    --ink: #14161c;
+    --ink-mid: #3d4453;
+    --ink-mute: #626a7b;
+    --ink-faint: #8b93a4;
+    --rule: #e3e7ef;
+    --rule-firm: #ccd3e0;
+    --accent: #1f6feb;
+    --accent-ink: #0a4bb8;
+    --accent-wash: #eaf2fe;
+    --trap: #9a3412;
+    --trap-wash: #fdf0e7;
+    --ok: #0f6f4c;
+    --ok-wash: #e8f5ef;
+
+    --display: 'Instrument Sans', system-ui, sans-serif;
+    --body: 'Source Sans 3', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0d1017;
+      --surface: #14181f;
+      --surface-sunk: #1a1f28;
+      --ink: #e8ecf4;
+      --ink-mid: #bcc4d2;
+      --ink-mute: #8d96a7;
+      --ink-faint: #6b7486;
+      --rule: #242a35;
+      --rule-firm: #333b49;
+      --accent: #6ea8fe;
+      --accent-ink: #a6c9ff;
+      --accent-wash: #14243d;
+      --trap: #f0a878;
+      --trap-wash: #2d1d13;
+      --ok: #5fc79b;
+      --ok-wash: #12271f;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0d1017;
+    --surface: #14181f;
+    --surface-sunk: #1a1f28;
+    --ink: #e8ecf4;
+    --ink-mid: #bcc4d2;
+    --ink-mute: #8d96a7;
+    --ink-faint: #6b7486;
+    --rule: #242a35;
+    --rule-firm: #333b49;
+    --accent: #6ea8fe;
+    --accent-ink: #a6c9ff;
+    --accent-wash: #14243d;
+    --trap: #f0a878;
+    --trap-wash: #2d1d13;
+    --ok: #5fc79b;
+    --ok-wash: #12271f;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: 20px;
+    padding-block: 0;
+  }
+
+  .page { max-width: 860px; margin-inline: auto; }
+
+  /* ---------- masthead ---------- */
+
+  header.masthead { padding-block: 56px 40px; border-bottom: 1px solid var(--rule); }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 5.2vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-mid);
+    max-width: 60ch;
+    margin: 0 0 30px;
+  }
+
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .fact {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 11px;
+    border: 1px solid var(--rule-firm);
+    border-radius: 4px;
+    color: var(--ink-mute);
+    background: var(--surface);
+  }
+
+  .fact b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- sections ---------- */
+
+  section { padding-block: 44px; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 25px;
+    letter-spacing: -0.018em;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+
+  .sec-intro { color: var(--ink-mute); max-width: 64ch; margin: 0 0 26px; font-size: 16px; }
+
+  h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 16.5px;
+    letter-spacing: -0.01em;
+    margin: 0 0 5px;
+  }
+
+  p { margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.855em;
+    background: var(--surface-sunk);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--ink-mid);
+    overflow-wrap: break-word;
+  }
+
+  /* ---------- install steps (ordered: real sequence) ---------- */
+
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 22px; }
+
+  ol.steps > li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  ol.steps > li::before {
+    content: counter(s);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-wash);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: grid; place-items: center;
+    margin-top: 1px;
+  }
+
+  pre {
+    font-family: var(--mono);
+    font-size: 12.8px;
+    line-height: 1.72;
+    background: var(--surface-sunk);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 13px 15px;
+    overflow-x: auto;
+    margin: 10px 0 0;
+    color: var(--ink-mid);
+  }
+
+  pre .c { color: var(--ink-faint); }
+  pre .p { color: var(--accent); }
+
+  /* ---------- layer stack (numbering encodes precedence) ---------- */
+
+  .stack { display: grid; gap: 2px; }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+
+  .layer:last-child { border-bottom: 1px solid var(--rule); }
+
+  .layer-no {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 3px;
+  }
+
+  .layer-path {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-ink);
+    margin: 0 0 4px;
+    overflow-wrap: break-word;
+  }
+
+  .layer-scope { font-size: 15px; color: var(--ink-mute); margin: 0; }
+  .layer-scope em { color: var(--ink-mid); font-style: normal; font-weight: 600; }
+
+  .precedence-note {
+    margin: 22px 0 0;
+    padding: 13px 16px;
+    background: var(--accent-wash);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 5px 5px 0;
+    font-size: 15px;
+    color: var(--ink-mid);
+  }
+
+  /* ---------- command list ---------- */
+
+  dl.commands { margin: 0; display: grid; gap: 18px; }
+  dl.commands > div { display: grid; grid-template-columns: 172px 1fr; gap: 18px; align-items: baseline; }
+
+  dl.commands dt {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--accent-ink);
+  }
+
+  dl.commands dd { margin: 0; color: var(--ink-mid); font-size: 15.5px; }
+
+  /* ---------- chat modes ---------- */
+
+  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 14px; }
+
+  .mode {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 7px;
+    padding: 16px 17px;
+  }
+
+  .mode p { font-size: 14.5px; color: var(--ink-mute); margin: 0 0 12px; }
+
+  .tools {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+    display: block;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .tools b { color: var(--ok); font-weight: 700; }
+  .tools i { color: var(--trap); font-style: normal; font-weight: 700; }
+
+  /* ---------- traps table ---------- */
+
+  .traps-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 7px; }
+
+  table { border-collapse: collapse; width: 100%; min-width: 560px; background: var(--surface); }
+
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 11px 16px;
+    background: var(--surface-sunk);
+    border-bottom: 1px solid var(--rule-firm);
+  }
+
+  tbody td { padding: 13px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; font-size: 14.5px; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  td.symptom { color: var(--trap); width: 43%; }
+  td.symptom code { background: var(--trap-wash); border-color: transparent; color: var(--trap); }
+  td.rule { color: var(--ink-mid); }
+
+  /* ---------- verified ---------- */
+
+  .verified { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2px; }
+
+  .vrow {
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .vnum {
+    font-family: var(--mono);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .vlabel { font-size: 13.5px; color: var(--ink-mute); }
+
+  ul.checks { margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+
+  ul.checks li {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    gap: 10px;
+    font-size: 15px;
+    color: var(--ink-mid);
+  }
+
+  ul.checks li::before {
+    content: "✓";
+    color: var(--ok);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  ul.checks code { font-size: 0.84em; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    padding-block: 34px 60px;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    border-top: 1px solid var(--rule);
+  }
+
+  footer code { font-size: 0.86em; }
+
+  @media (max-width: 620px) {
+    dl.commands > div { grid-template-columns: 1fr; gap: 3px; }
+    .layer { grid-template-columns: 1fr; gap: 6px; }
+    .layer-no { padding-top: 0; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="kicker">GitHub Copilot · Configuration Layer</p>
+    <h1>TaskFlow Copilot Framework</h1>
+    <p class="standfirst">
+      A portable instruction layer for Java&nbsp;+&nbsp;React repositories. The product is
+      <strong>the nine files under <code>.github/</code></strong> plus <code>AGENTS.md</code> — copy them onto
+      your project, edit three, and every Copilot surface starts following your layer
+      rules instead of guessing at them.
+    </p>
+    <div class="facts">
+      <span class="fact"><b>Spring Boot</b> 4.1.1</span>
+      <span class="fact"><b>React</b> 19.3</span>
+      <span class="fact"><b>Java</b> 21</span>
+      <span class="fact"><b>87</b> tests passing</span>
+      <span class="fact"><b>MIT</b></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Install on your own project</h2>
+    <p class="sec-intro">
+      Three copies, three edits. Nothing to build, no dependency to add.
+    </p>
+
+    <ol class="steps">
+      <li>
+        <div>
+          <h3>Copy the framework layer</h3>
+          <p>Your application code is untouched — this only adds configuration.</p>
+<pre><span class="c"># from the repo root</span>
+cp -r examples/taskflow/.github   <span class="p">~/your-project/</span>
+cp    examples/taskflow/AGENTS.md <span class="p">~/your-project/</span>
+cp -r examples/taskflow/.vscode   <span class="p">~/your-project/</span></pre>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Edit exactly three files</h3>
+          <p>
+            Keep every structure; replace only the project-specific content.
+            <code>copilot-instructions.md</code> → your stack, invariants and commands.
+            <code>*.instructions.md</code> → your <code>applyTo</code> globs and layer rules.
+            <code>AGENTS.md</code> → your setup and verify commands.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Open that folder as the workspace root</h3>
+          <p>
+            Copilot resolves <code>.github/instructions/**</code> relative to the workspace root,
+            so a nested <code>.github/</code> is silently ignored. This is the single most common
+            reason a correct instruction file appears to do nothing.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Four layers, most specific last</h2>
+    <p class="sec-intro">
+      The layers are numbered because precedence is genuinely ordered: Copilot combines
+      every file that applies to the file you are editing, and the narrower layer adds
+      detail on top rather than repeating the broader one.
+    </p>
+
+    <div class="stack">
+      <div class="layer">
+        <span class="layer-no">Layer 1</span>
+        <div>
+          <p class="layer-path">AGENTS.md</p>
+          <p class="layer-scope">Tool-agnostic setup and verify contract. Read by the <em>Copilot coding agent</em> and other tools supporting the open agents.md standard.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <span class="layer-no">Layer 2</span>
+        <div>
+          <p class="layer-path">.github/copilot-instructions.md</p>
+          <p class="layer-scope">Repo-wide rules, read by <em>every</em> surface — inline completions, Chat, Agent Mode, the coding agent, and code review.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <span class="layer-no">Layer 3</span>
+        <div>
+          <p class="layer-path">.github/instructions/*.instructions.md</p>
+          <p class="layer-scope">Path-scoped via an <em>applyTo</em> glob — <code>backend/**/*.java</code>, <code>frontend/**/*.{ts,tsx}</code>, and test files only. Your Java rules never leak into a React file.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <span class="layer-no">Layer 4</span>
+        <div>
+          <p class="layer-path">.github/chatmodes/*.chatmode.md</p>
+          <p class="layer-scope">Active only when you <em>select that persona</em>. Adds task-specific constraints and a restricted toolset on top of the standing rules.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="precedence-note">
+      They are additive, not exclusive. The fix for a contradiction between layers is to
+      write instructions that do not fight — not to memorise an override rule.
+    </p>
+  </section>
+
+  <section>
+    <h2>Prompt library</h2>
+    <p class="sec-intro">
+      Four reusable commands in <code>.github/prompts/</code>. Type the slash command in
+      Copilot Chat; each one asks for what it still needs, then works in the order that
+      actually holds together.
+    </p>
+
+    <dl class="commands">
+      <div>
+        <dt>/new-endpoint</dt>
+        <dd>DTO → service → exception + handler → controller → tests → the TypeScript type mirror. Then runs <code>mvn test</code> and reports the real count.</dd>
+      </div>
+      <div>
+        <dt>/new-component</dt>
+        <dd>Types → API function → hook → presentational component → wiring → Vitest suite. Enforces no <code>fetch</code> inside a component.</dd>
+      </div>
+      <div>
+        <dt>/add-tests</dt>
+        <dd>Reports existing coverage and the gaps <em>before</em> writing, picks the cheapest level that proves each one, and never edits production code.</dd>
+      </div>
+      <div>
+        <dt>/review-diff</dt>
+        <dd>Correctness → layer violations → contract drift → version traps → test gaps → style, stopping at the first category with real findings.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Three personas, scoped by capability</h2>
+    <p class="sec-intro">
+      The most reliable way to stop an agent doing something you did not want is to give
+      it less capability than the task allows. Each mode declares its own toolset.
+    </p>
+
+    <div class="modes">
+      <div class="mode">
+        <h3>Architect</h3>
+        <p>Locates the change, checks the contract, weighs two or three options, emits a numbered plan with a definition of done.</p>
+        <span class="tools"><b>search · usages · problems</b><br><i>no edit · no terminal</i></span>
+      </div>
+      <div class="mode">
+        <h3>Reviewer</h3>
+        <p>Reviews a diff in risk order and caps at the top five findings. Says a clean diff is clean instead of inventing work.</p>
+        <span class="tools"><b>search · usages · problems</b><br><i>no edit · no terminal</i></span>
+      </div>
+      <div class="mode">
+        <h3>Test writer</h3>
+        <p>Picks the test level, writes the suite, runs it. If a test cannot pass without a production change, it stops and says so.</p>
+        <span class="tools"><b>search · usages · edit · runCommands</b><br><i>test files only</i></span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Version traps the instructions encode</h2>
+    <p class="sec-intro">
+      Every row below was hit and fixed while building and running this project — not
+      collected from release notes. This is the class of knowledge a model reliably
+      guesses wrong, which makes it the most valuable thing an instruction file can hold.
+    </p>
+
+    <div class="traps-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">What you see</th><th scope="col">The rule</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="symptom"><code>package org.springframework.boot.test.autoconfigure.web.servlet does not exist</code></td>
+            <td class="rule">Boot 4 split the test slices out. <code>@WebMvcTest</code> needs <code>spring-boot-starter-webmvc-test</code> and now lives in <code>boot.webmvc.test.autoconfigure</code>; <code>@DataJpaTest</code> needs <code>spring-boot-starter-data-jpa-test</code> under <code>boot.data.jpa.test.autoconfigure</code>.</td>
+          </tr>
+          <tr>
+            <td class="symptom"><code>No qualifying bean of type 'com.fasterxml.jackson.databind.ObjectMapper'</code></td>
+            <td class="rule">Boot 4 ships <strong>Jackson 3</strong> under <code>tools.jackson</code>. There is no <code>com.fasterxml</code> mapper bean. Use JSON string literals in web tests — they assert the real wire format anyway.</td>
+          </tr>
+          <tr>
+            <td class="symptom"><code>jpaAuditingHandler</code> → <code>JPA metamodel must not be empty</code></td>
+            <td class="rule">Keep <code>@EnableJpaAuditing</code> in its own <code>@Configuration</code>, never on the application class — the web slice loads that class but excludes JPA, so every <code>@WebMvcTest</code> dies. Slice tests that need auditing <code>@Import</code> it explicitly.</td>
+          </tr>
+          <tr>
+            <td class="symptom">A mistyped URL returns <code>500</code></td>
+            <td class="rule">A blanket <code>@ExceptionHandler(Exception.class)</code> swallows Spring's <code>NoResourceFoundException</code>. Any catch-all needs an explicit <code>NoResourceFoundException</code> → 404 companion, plus a regression test.</td>
+          </tr>
+          <tr>
+            <td class="symptom"><code>@MockBean</code> cannot be resolved</td>
+            <td class="rule">Removed in Boot 4. Use <code>@MockitoBean</code> from <code>org.springframework.test.context.bean.override.mockito</code>.</td>
+          </tr>
+          <tr>
+            <td class="symptom"><code>/h2-console</code> → <code>No static resource h2-console</code></td>
+            <td class="rule">The console moved to its own module. <code>spring.h2.console.enabled</code> alone does nothing without the <code>spring-boot-h2console</code> dependency — and nothing warns you.</td>
+          </tr>
+          <tr>
+            <td class="symptom"><code>'test' does not exist in type 'UserConfigExport'</code></td>
+            <td class="rule">Import <code>defineConfig</code> from <code>vitest/config</code>, not <code>vite</code>. Everything else typechecks first, so the error arrives late and reads unrelated.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>The reference application</h2>
+    <p class="sec-intro">
+      Small, layered, and genuinely running — it exists so the rules above point at real
+      code rather than describing an idea. No database server, no Docker, no credentials.
+    </p>
+
+    <div class="verified">
+      <div class="vrow"><span class="vnum">55</span><span class="vlabel">backend tests</span></div>
+      <div class="vrow"><span class="vnum">32</span><span class="vlabel">frontend tests</span></div>
+      <div class="vrow"><span class="vnum">0</span><span class="vlabel">failures / errors</span></div>
+      <div class="vrow"><span class="vnum">372<span style="font-size:14px">ms</span></span><span class="vlabel">production build</span></div>
+    </div>
+
+    <ul class="checks">
+      <li>Lifecycle rules defined once on an enum, exposed to the client as <code>allowedTransitions</code> — the UI cannot offer an illegal move</li>
+      <li>Dynamic filtering via JPA Specifications that return no-op predicates, never <code>null</code></li>
+      <li>RFC 9457 <code>problem+json</code> errors, verified live: <code>201</code>+Location, <code>400</code> field errors, <code>409</code> illegal transition, <code>409</code> duplicate title, <code>404</code> unknown path</li>
+      <li>A typed <code>fetch</code> wrapper collapsing every failure into one <code>ApiError</code>, including the non-JSON error page case</li>
+      <li>Requests abort on dependency change, so a slow response cannot overwrite a newer one</li>
+      <li>Test pyramid in practice: enum units → service units → <code>@DataJpaTest</code> → <code>@WebMvcTest</code> → a few full-stack journeys</li>
+    </ul>
+  </section>
+
+  <footer>
+    Branch <code>claude/github-copilot-tutorial-01UpSoRsaZFLTULuwRVKxRej</code> ·
+    path <code>examples/taskflow/</code> · MIT. Strip the application, keep the framework.
+  </footer>
+
+</div>

@@ -1,0 +1,50 @@
+{
+  "//": "Workspace settings that make Copilot materially better in this repo.",
+
+  "//instructions": "Point Copilot at the layer rules for code generation. These stack with .github/copilot-instructions.md.",
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+
+  "//tests": "Tell Copilot how tests are written here, so /tests output matches the house style.",
+  "github.copilot.chat.testGeneration.instructions": [
+    {
+      "file": ".github/instructions/tests.instructions.md"
+    }
+  ],
+
+  "//review": "Same rules the reviewer chat mode uses.",
+  "github.copilot.chat.reviewSelection.instructions": [
+    {
+      "file": ".github/chatmodes/reviewer.chatmode.md"
+    }
+  ],
+
+  "//commit": "Keep generated commit messages imperative and scoped.",
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Imperative mood, max 72-char subject. Prefix with the area touched: backend:, frontend:, copilot:, docs:. Explain why, not what."
+    }
+  ],
+
+  "//editor": "Strict formatting keeps generated code consistent with existing code, which in turn improves later suggestions.",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "//java": "",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+
+  "//typescript": "",
+  "typescript.tsdk": "frontend/node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  "//search": "Keep build output out of Copilot's context window.",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/target": true,
+    "**/dist": true
+  }
+}

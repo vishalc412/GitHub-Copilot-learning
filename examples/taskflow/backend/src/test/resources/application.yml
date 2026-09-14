@@ -1,0 +1,22 @@
+# Test profile: isolated database, no demo rows.
+# Tests own their fixtures — inheriting seeded data makes assertions
+# order-dependent and mysteriously brittle.
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:taskflow-test;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+taskflow:
+  seed-demo-data: false
+
+logging:
+  level:
+    com.example.taskflow: INFO
+    org.hibernate.SQL: WARN
