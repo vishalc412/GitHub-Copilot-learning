@@ -2,9 +2,9 @@
 
 ## Instructor-Led Learning Guide
 
-**Version**: 1.0
+**Version**: 2.0
 **Difficulty**: Beginner to Expert
-**Duration**: 6 Weeks
+**Duration**: 7 Weeks (includes agentic Copilot: Agent Mode, coding agent, MCP, multi-agent workflows)
 
 ---
 
@@ -533,7 +533,144 @@ Create a pattern catalog with:
 
 ---
 
-# WEEK 5-6: PROJECTS & CERTIFICATION
+# WEEK 5: AGENTIC COPILOT & MULTI-AGENT WORKFLOWS
+
+## Day 1: Agent Mode
+
+### Learning Objectives
+- Understand the difference between Ask, Edit, and Agent modes
+- Write goal-oriented prompts (not step-by-step instructions)
+- Configure guardrails (terminal approval, file review)
+
+### Instruction
+See: [`copilot-instructions/agents/01-agent-mode.md`](copilot-instructions/agents/01-agent-mode.md)
+
+### Exercise 9.1: Your First Agent Mode Task
+
+In a scratch repo, give Agent Mode this goal (don't break it into steps —
+let the agent plan):
+
+```
+Context: The createOrder function accepts unvalidated input.
+Goal: Add input validation using the same validation library already
+      used elsewhere in the project.
+Constraints: Don't change the function signature.
+Definition of done: Add tests covering at least 3 invalid-input cases;
+      all tests pass.
+```
+
+Record: which files it opened before editing, whether it asked before
+running commands, and whether it self-corrected after a failing test.
+
+### Assignment 9: Agent Mode Task Log
+
+Run 5 Agent Mode tasks of increasing complexity. For each: the prompt used,
+files touched, commands run, and whether you had to intervene.
+
+---
+
+## Day 2: The Coding Agent
+
+### Learning Objectives
+- Assign a GitHub issue to Copilot's autonomous coding agent
+- Write "agent-ready" issues with explicit acceptance criteria
+- Configure `copilot-setup-steps.yml` for the agent's environment
+- Review and iterate on agent-generated PRs
+
+### Instruction
+See: [`copilot-instructions/agents/02-coding-agent.md`](copilot-instructions/agents/02-coding-agent.md)
+
+### Exercise 9.2: Delegate an Issue
+
+Write an issue using the Problem → Expected behavior → Acceptance criteria
+template, assign it to Copilot, and track time-to-first-commit and number
+of review rounds before it's mergeable.
+
+### Assignment 10: Agent-Ready Issue Writing
+
+File 3 issues of increasing ambiguity. Document how issue clarity
+correlates with resulting PR quality.
+
+---
+
+## Day 3: Custom Chat Modes & Code Review
+
+### Learning Objectives
+- Build restricted-tool personas (Architect, Reviewer, Test Writer)
+- Understand automated Copilot code review and how to calibrate it
+
+### Instruction
+See: [`copilot-instructions/agents/03-custom-chat-modes.md`](copilot-instructions/agents/03-custom-chat-modes.md)
+and [`copilot-instructions/agents/06-code-review.md`](copilot-instructions/agents/06-code-review.md)
+
+### Exercise 9.3: Ship a Team Persona
+
+Create a custom chat mode for a role your team needs (e.g. "Migration
+Assistant" scoped only to `migrations/`). Have a teammate use it and
+collect feedback on the tool restrictions.
+
+### Assignment 11: Calibrate Code Review
+
+Request a Copilot review on 5 recent PRs. Mark each comment: would have
+caught a real bug / correct but minor / not applicable. Update
+`.github/copilot-instructions.md` to close the biggest gap found.
+
+---
+
+## Day 4: MCP & Extensions
+
+### Learning Objectives
+- Connect Agent Mode to an external tool via an MCP server
+- Understand when to use MCP vs. a Copilot Extension
+- Apply the security checklist for any new integration
+
+### Instruction
+See: [`copilot-instructions/agents/04-mcp-integration.md`](copilot-instructions/agents/04-mcp-integration.md)
+and [`copilot-instructions/agents/05-extensions.md`](copilot-instructions/agents/05-extensions.md)
+
+### Exercise 9.4: Connect an MCP Server
+
+Register a local read-only database MCP server (see `.vscode/mcp.json` in
+this repo for the config shape). Ask Agent Mode to write a query function
+and observe whether it inspects the schema via the MCP tool before coding.
+
+### Assignment 12: Integration Proposal
+
+Identify one internal system your team wishes Copilot could access.
+Propose whether it should be an MCP server or a full Extension, and
+document the security review required before rollout.
+
+---
+
+## Day 5: Multi-Agent Workflows (Capstone)
+
+### Learning Objectives
+- Fan out independent tasks to multiple coding agent sessions in parallel
+- Build a Plan → Build → Review pipeline using different chat mode personas
+- Recognize and avoid the common failure modes of multi-agent work
+
+### Instruction
+See: [`copilot-instructions/agents/07-multi-agent-workflows.md`](copilot-instructions/agents/07-multi-agent-workflows.md)
+
+### Exercise 9.5: Fan-Out Batch
+
+Pick 3 small, independent, well-scoped issues. Write each with the Strong
+Issue template, assign all 3 to Copilot at once, and time how long until
+all 3 have reviewable draft PRs.
+
+### Assignment 13: Design a Pipeline (Capstone)
+
+Design a full Plan → Build → Review pipeline for a real feature in your
+codebase:
+1. Architect-mode plan for the feature
+2. The resulting issue (with acceptance criteria) for the coding agent
+3. A Reviewer-mode checklist to run before human review
+
+Present the end-to-end flow to your team as a proposed standard workflow.
+
+---
+
+# WEEK 6-7: PROJECTS & CERTIFICATION
 
 ## Capstone Projects
 
@@ -581,6 +718,25 @@ Choose one:
 
 ---
 
+### Project 3: Agentic Workflow (Required for Expert Certification)
+
+Build and document a complete agentic workflow on a real (or realistic
+sandbox) repository:
+
+**Requirements:**
+- `AGENTS.md` and `.github/copilot-instructions.md` written for the repo
+- At least 2 path-specific `.github/instructions/*.instructions.md` files
+- At least 1 custom chat mode (`.github/chatmodes/*.chatmode.md`)
+- `copilot-setup-steps.yml` configured and verified working
+- At least 3 issues completed end-to-end by the coding agent
+- One multi-agent fan-out batch (3+ parallel issues) documented
+- One MCP server connected and used successfully in Agent Mode
+
+**Deliverable**: Repository + a written retrospective covering what worked,
+what failed, and what you'd change
+
+---
+
 ## Certification Assessment
 
 ### Written Assessment (30 points)
@@ -591,6 +747,9 @@ Choose one:
 4. Compare Copilot behavior across languages (5 points)
 5. Identify issues in Copilot-generated code (5 points)
 6. Design a prompt for a complex function (5 points)
+7. Explain the 4-layer instructions hierarchy and when each applies, and
+   contrast Agent Mode, the coding agent, and a custom chat mode (5 points)
+   *(bonus — required only for Expert certification)*
 
 ### Practical Assessment (70 points)
 
@@ -625,11 +784,18 @@ Choose one:
 - Submit 2 projects
 - 60%+ code generation rate
 
-### Level 3: Copilot Expert
-- Complete all 6 weeks
+### Level 3: Copilot Agentic Practitioner
+- Complete Weeks 1-5 (includes Agent Mode, coding agent, MCP, chat modes)
+- Pass written assessment including question 7 (80%+)
+- Submit Project 3 (Agentic Workflow)
+- Successfully delegate at least 3 issues end-to-end to the coding agent
+
+### Level 4: Copilot Expert
+- Complete all 7 weeks
 - Pass written assessment (90%+)
-- Submit 3 projects
+- Submit all 3 projects, including the Agentic Workflow retrospective
 - 70%+ code generation rate
+- Design and present a multi-agent pipeline (Assignment 13) to your team
 - Teach another developer
 
 ---
@@ -639,17 +805,36 @@ Choose one:
 ### Files in This Repository
 
 ```
+AGENTS.md                              # Open-standard agent instructions
+.github/copilot-instructions.md        # Root Copilot configuration
+.github/instructions/*.instructions.md # Path-scoped instructions
+.github/chatmodes/*.chatmode.md        # Custom chat personas
+.github/workflows/copilot-setup-steps.yml  # Coding agent environment
+.vscode/mcp.json                       # Example MCP server config
+
 copilot-instructions/
-├── python/
-│   └── python-rules.md       # Python-specific instructions
-├── java/
-│   └── java-rules.md         # Java-specific instructions
-├── react/
-│   └── react-rules.md        # React-specific instructions
-├── patterns/
-│   └── prompt-patterns.md    # Prompt pattern catalog
-└── rules/
-    └── copilot-mastery-rules.md  # Core rules and principles
+├── python/python-rules.md             # Python-specific instructions
+├── java/java-rules.md                 # Java-specific instructions
+├── react/react-rules.md               # React-specific instructions
+├── patterns/prompt-patterns.md        # Prompt pattern catalog
+├── rules/copilot-mastery-rules.md     # Core rules and principles
+├── instructions-files/
+│   └── path-specific-instructions.md  # The full 4-layer hierarchy explained
+└── agents/                            # Agentic Copilot (Weeks 5 + Expert cert)
+    ├── 01-agent-mode.md
+    ├── 02-coding-agent.md
+    ├── 03-custom-chat-modes.md
+    ├── 04-mcp-integration.md
+    ├── 05-extensions.md
+    ├── 06-code-review.md
+    ├── 07-multi-agent-workflows.md
+    └── 08-copilot-cli.md
+
+training/                              # 3-day presentation-ready HTML deck
+├── index.html
+├── day1.html
+├── day2.html
+└── day3.html
 ```
 
 ### External Resources
@@ -657,6 +842,9 @@ copilot-instructions/
 - [GitHub Copilot Docs](https://docs.github.com/copilot)
 - [VS Code Copilot](https://code.visualstudio.com/docs/copilot)
 - [Copilot Best Practices](https://github.blog/developer-skills/github/how-to-write-better-prompts-for-github-copilot/)
+- [Copilot Coding Agent Docs](https://docs.github.com/en/copilot/using-github-copilot/coding-agent/about-assigning-tasks-to-copilot)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [AGENTS.md Standard](https://agents.md/)
 
 ---
 

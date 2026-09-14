@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Day 1 · Foundations — Copilot Mastery Training</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand"><span class="logo-dot"></span> Copilot Mastery Training</a>
+  <div class="day-tabs">
+    <a href="index.html">Overview</a>
+    <a href="day1.html" class="active">Day 1 · Foundations</a>
+    <a href="day2.html">Day 2 · Languages</a>
+    <a href="day3.html">Day 3 · Agents</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">DAY 1 OF 3</span>
+    <h1>Foundations &amp; Prompt Engineering</h1>
+    <p class="lede">
+      Everyone leaves today able to install Copilot, explain how it uses
+      context, and write comments that reliably generate correct code —
+      the base every later day builds on.
+    </p>
+    <div class="meta-row">
+      <span class="pill">🎯 Outcome: 30%+ acceptance rate on generated suggestions</span>
+      <span class="pill">📄 Reference: <code>COPILOT_TUTORIAL.md</code> Week 1</span>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Day Agenda</h2></div>
+    <div class="agenda">
+      <div class="agenda-row">
+        <span class="agenda-time">09:00–09:30</span>
+        <div class="agenda-title">Welcome &amp; Why Copilot<small>Program overview, expectations, sandbox repo setup</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">09:30–10:30</span>
+        <div class="agenda-title">Session 1 — Setup &amp; First Suggestions<small>Install, sign in, verify, accept your first completions</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">10:30–10:45</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">10:45–12:00</span>
+        <div class="agenda-title">Session 2 — How Copilot Actually Works<small>Context sources, suggestion cycling, keyboard fluency</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">12:00–13:00</span>
+        <div class="agenda-title">Lunch</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">13:00–14:30</span>
+        <div class="agenda-title">Session 3 — The Art of Prompting<small>The 5 elements, signature-first, the 10 prompt patterns</small></div>
+        <span class="agenda-tag tag-lecture">Lecture + Practice</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">14:30–14:45</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">14:45–16:00</span>
+        <div class="agenda-title">Session 4 — Context &amp; File Structure<small>Why the same prompt gives different results in different repos</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">16:00–16:45</span>
+        <div class="agenda-title">Session 5 — The 10 Mastery Rules Workshop<small>Team speed-run through the core rulebook, in pairs</small></div>
+        <span class="agenda-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">16:45–17:00</span>
+        <div class="agenda-title">Wrap-Up &amp; Day 1 Assignments<small>Recap, assign homework, preview Day 2</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>Session 1 — Setup &amp; First Suggestions</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Get everyone generating code in the first hour</h3><span class="session-time">09:30–10:30 · 60 min</span></div>
+      <div class="objectives">
+        <span>Install &amp; authenticate Copilot</span>
+        <span>Verify the extension is active</span>
+        <span>Accept, reject, and cycle suggestions</span>
+      </div>
+      <p><strong>Facilitator walkthrough:</strong></p>
+      <ol>
+        <li>Open VS Code → Extensions (<code>Ctrl/Cmd+Shift+X</code>) → search "GitHub Copilot" → Install</li>
+        <li>Sign in with GitHub when prompted; confirm the Copilot subscription is active for the account/org</li>
+        <li>Create <code>sandbox/test.py</code> and type <code># Function to reverse a string</code>, press Enter, and wait for the ghost-text suggestion</li>
+      </ol>
+      <pre><code># Function to reverse a string
+def reverse_string(s: str) -> str:
+    return s[::-1]</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 1.1 — First Generations</div>
+        <p>Individually, generate these three functions from comments only. For each, note whether you accepted the first suggestion, cycled to a later one, or rejected and rewrote the comment.</p>
+        <ol>
+          <li><code># Function to add two numbers</code></li>
+          <li><code># Function to check if a string is a palindrome</code></li>
+          <li><code># Function to find the largest number in a list</code></li>
+        </ol>
+      </div>
+      <table class="data-table">
+        <tr><th>Action</th><th>Windows / Linux</th><th>Mac</th></tr>
+        <tr><td>Accept suggestion</td><td><code>Tab</code></td><td><code>Tab</code></td></tr>
+        <tr><td>Reject</td><td><code>Esc</code></td><td><code>Esc</code></td></tr>
+        <tr><td>Next suggestion</td><td><code>Alt+]</code></td><td><code>Option+]</code></td></tr>
+        <tr><td>Previous suggestion</td><td><code>Alt+[</code></td><td><code>Option+[</code></td></tr>
+        <tr><td>Open Chat</td><td><code>Ctrl+Shift+I</code></td><td><code>Cmd+Shift+I</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">03</span><h2>Session 2 — How Copilot Actually Works</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Context is the input; suggestions are the output</h3><span class="session-time">10:45–12:00 · 75 min</span></div>
+      <p>Explain the context weighting model, then prove it live:</p>
+      <pre><code>┌──────────────────────────────────────────┐
+│            CONTEXT SOURCES                │
+├──────────────────────────────────────────┤
+│ 1. Current file         (highest weight)  │
+│ 2. Open tabs            (high weight)     │
+│ 3. Imports              (high weight)     │
+│ 4. Recent edits         (medium weight)   │
+│ 5. Project structure    (low weight)      │
+└──────────────────────────────────────────┘</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 1.2 — Multiple Suggestions</div>
+        <p>For each prompt, cycle through at least 3 suggestions and record which you'd pick and why:</p>
+        <ul>
+          <li><code># Sort a list of dictionaries by a specific key</code></li>
+          <li><code># Validate an email address</code></li>
+          <li><code># Convert temperature from Celsius to Fahrenheit</code></li>
+        </ul>
+      </div>
+      <div class="callout callout-info">
+        <div class="callout-head">👀 Live Demo — Context Comparison</div>
+        <p>Close all files, generate a <code>User</code> class from nothing. Then open a file with an existing, well-typed <code>User</code> model, and generate a second class in a related file. Compare the two outputs as a group — this is the single most convincing demo of why context matters.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">04</span><h2>Session 3 — The Art of Prompting</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>The five elements of a great prompt</h3><span class="session-time">13:00–14:30 · 90 min</span></div>
+      <div class="grid-3">
+        <div class="card"><h4>1. Action</h4><p>What to do — validate, calculate, transform, parse</p></div>
+        <div class="card"><h4>2. Subject</h4><p>What to act on — user, order, dataset, request</p></div>
+        <div class="card"><h4>3. Details</h4><p>Specific requirements the function must satisfy</p></div>
+        <div class="card"><h4>4. Constraints</h4><p>Limits, rules, things it must NOT do</p></div>
+        <div class="card"><h4>5. Output</h4><p>Expected return shape/type</p></div>
+      </div>
+      <p><strong>Signature-first pattern</strong> — define the full type signature before letting Copilot fill in the body:</p>
+      <pre><code>def calculate_order_total(
+    items: List[Dict[str, float]],
+    discount_code: Optional[str] = None,
+    tax_rate: float = 0.08
+) -> Dict[str, float]:
+    """
+    Calculate order total with itemized breakdown.
+    Returns: {'subtotal', 'discount', 'tax', 'total'}
+    """
+    # Let Copilot complete</code></pre>
+      <p>Walk through 3–4 patterns from <code>copilot-instructions/patterns/prompt-patterns.md</code> live: Signature-First, Example-Driven, Step-by-Step, Contract.</p>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 2.1 — Prompt Improvement Drill</div>
+        <p>In pairs, take each "BAD" prompt below through a BETTER and a BEST version, then generate code from all three and compare quality:</p>
+        <ul>
+          <li><code># do something with data</code></li>
+          <li><code># send email</code></li>
+          <li><code># check user</code></li>
+        </ul>
+      </div>
+      <div class="callout callout-assignment">
+        <div class="callout-head">📝 Assignment 2 (due before Day 2) — Prompt Patterns Catalog</div>
+        <p>Write 10 effective prompts in each category: data processing, API operations, string manipulation, file operations, error handling. 50 total, each with a 1–5 quality rating for the code it generated.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">05</span><h2>Session 4 — Context &amp; File Structure</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Organizing a project so Copilot helps instead of guesses</h3><span class="session-time">14:45–16:00 · 75 min</span></div>
+      <p>Set up this structure together and observe how opening <code>models/user.py</code> before generating <code>services/user_service.py</code> changes the result:</p>
+      <pre><code>my_project/
+├── models/
+│   └── user.py
+├── services/
+│   └── user_service.py
+├── repositories/
+│   └── user_repository.py
+└── tests/
+    └── test_user.py</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 3.2 — Context Experiment</div>
+        <p>With <code>models/user.py</code> open, generate the service layer. Then close it and regenerate from scratch. Diff the two outputs as a group.</p>
+      </div>
+      <div class="callout callout-assignment">
+        <div class="callout-head">📝 Assignment 3 (due before Day 2) — Context Analysis</div>
+        <p>Generate the same function in 5 different contexts (no context, wrong file open, right file open, with types, with tests-first). Document each variation with a screenshot and a short analysis of what changed and why.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 5 -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">06</span><h2>Session 5 — The 10 Mastery Rules Workshop</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Team speed-run through the rulebook</h3><span class="session-time">16:00–16:45 · 45 min</span></div>
+      <p>Full detail: <code>copilot-instructions/rules/copilot-mastery-rules.md</code>. In pairs, each team takes 2 rules and demos one exercise from that rule to the group in under 5 minutes.</p>
+      <table class="data-table">
+        <tr><th>#</th><th>Rule</th><th>One-line takeaway</th></tr>
+        <tr><td>1</td><td>Context is King</td><td>More relevant open files/types = better suggestions</td></tr>
+        <tr><td>2</td><td>Comments Before Code</td><td>Copilot reads comments as instructions, not decoration</td></tr>
+        <tr><td>3</td><td>Type Everything</td><td>Type hints are the highest-leverage context signal</td></tr>
+        <tr><td>4</td><td>Use Design Patterns</td><td>Named patterns (Repository, Factory...) get recognized instantly</td></tr>
+        <tr><td>5</td><td>Test-Driven Development</td><td>Tests-first gives Copilot an exact spec to implement against</td></tr>
+        <tr><td>6</td><td>Incremental Complexity</td><td>Layer features on working code rather than one giant prompt</td></tr>
+        <tr><td>7</td><td>Use Copilot Chat Effectively</td><td>Specific questions beat "fix this"</td></tr>
+        <tr><td>8</td><td>Keyboard Shortcuts Mastery</td><td>Speed compounds over thousands of interactions/day</td></tr>
+        <tr><td>9</td><td>Review Before Accept</td><td>Never trust a suggestion you haven't read</td></tr>
+        <tr><td>10</td><td>Continuous Learning</td><td>Clean, consistent code teaches Copilot your codebase</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- WRAP UP -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">07</span><h2>Wrap-Up &amp; Homework</h2></div>
+    <div class="callout callout-assignment">
+      <div class="callout-head">📝 Assignment 1 — Generation Log</div>
+      <p>Generate 20 different functions using comments. For each: the comment used, a 1–5 quality rating, and whether you accepted or modified it. Bring the table to Day 2.</p>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-head">✅ Day 1 Checklist</div>
+      <ul>
+        <li>Copilot installed and generating suggestions for every attendee</li>
+        <li>Everyone can name the 5 elements of a strong prompt</li>
+        <li>Everyone has run the context-comparison exercise at least once</li>
+        <li>Assignments 1–3 assigned, due before Day 2 starts</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day-footer-nav">
+    <a href="index.html">← Overview</a>
+    <a href="day2.html" class="primary">Continue to Day 2 →</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  GitHub Copilot Mastery System · Training Deck v1.0 · Day 1 of 3
+</footer>
+
+</body>
+</html>

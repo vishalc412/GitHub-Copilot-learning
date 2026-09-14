@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Day 2 · Language Mastery — Copilot Mastery Training</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand"><span class="logo-dot"></span> Copilot Mastery Training</a>
+  <div class="day-tabs">
+    <a href="index.html">Overview</a>
+    <a href="day1.html">Day 1 · Foundations</a>
+    <a href="day2.html" class="active">Day 2 · Languages</a>
+    <a href="day3.html">Day 3 · Agents</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">DAY 2 OF 3</span>
+    <h1>Language Mastery, Testing &amp; Design Patterns</h1>
+    <p class="lede">
+      Today goes deep on one track (Python, Java, or React), practices
+      test-driven development with Copilot as the implementer, sprints
+      through the classic design patterns, and closes with a team
+      calibration of Copilot's automated code review.
+    </p>
+    <div class="meta-row">
+      <span class="pill">🎯 Outcome: 50%+ generation rate, first working TDD cycle</span>
+      <span class="pill">📄 Reference: <code>COPILOT_TUTORIAL.md</code> Weeks 2–4</span>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Day Agenda</h2></div>
+    <div class="agenda">
+      <div class="agenda-row">
+        <span class="agenda-time">09:00–09:15</span>
+        <div class="agenda-title">Recap &amp; Assignment Review<small>Share standout examples from the Generation Log and Prompt Catalog</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">09:15–10:30</span>
+        <div class="agenda-title">Session 1 — Language Track Breakout<small>Choose Python, Java, or React; core patterns for that language</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">10:30–10:45</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">10:45–12:00</span>
+        <div class="agenda-title">Session 2 — Framework Deep Dive<small>FastAPI / Spring Boot / React components — live-coded end to end</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">12:00–13:00</span>
+        <div class="agenda-title">Lunch</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">13:00–14:15</span>
+        <div class="agenda-title">Session 3 — TDD with Copilot<small>Red-Green-Refactor, tests as the spec Copilot implements against</small></div>
+        <span class="agenda-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">14:15–14:30</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">14:30–15:45</span>
+        <div class="agenda-title">Session 4 — Design Patterns Sprint<small>Implement 3 patterns each; compare across the room</small></div>
+        <span class="agenda-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">15:45–16:30</span>
+        <div class="agenda-title">Session 5 — Code Review Calibration<small>Request Copilot reviews on real PRs; score the findings as a team</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">16:30–17:00</span>
+        <div class="agenda-title">Wrap-Up &amp; Day 2 Assignments<small>Recap, assign homework, preview Day 3</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1: LANGUAGE TRACKS -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>Session 1 — Language Track Breakout</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Split into 3 groups by primary stack</h3><span class="session-time">09:15–10:30 · 75 min</span></div>
+      <p>Each track works from its dedicated rules file and generates the patterns below, then reconvenes to demo one artifact to the whole room.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>🐍 Python <span class="badge badge-day2">Track A</span></h4>
+          <p><code>copilot-instructions/python/python-rules.md</code></p>
+          <p>Generate: dataclass with validation, context manager for DB transactions, async API fetch with retry, timing decorator.</p>
+        </div>
+        <div class="card">
+          <h4>☕ Java <span class="badge badge-day2">Track B</span></h4>
+          <p><code>copilot-instructions/java/java-rules.md</code></p>
+          <p>Generate: immutable Builder-pattern entity, Spring REST controller, JPA repository with custom queries, transactional service.</p>
+        </div>
+        <div class="card">
+          <h4>⚛️ React <span class="badge badge-day2">Track C</span></h4>
+          <p><code>copilot-instructions/react/react-rules.md</code></p>
+          <p>Generate: typed functional component, custom <code>useApi</code> hook, Context + reducer state slice, colocated RTL test.</p>
+        </div>
+      </div>
+
+      <pre><code>// Python track example
+@dataclass
+class Product:
+    """Product with price validation."""
+    # Let Copilot complete __post_init__ validation
+
+// Java track example
+public class Order {
+    // Fields: id, customerId, items, total, status, createdAt
+    // Let Copilot generate the Builder
+}
+
+// React track example
+interface UserCardProps {
+  user: User;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+export const UserCard: React.FC&lt;UserCardProps&gt; = ({ user, onEdit, onDelete }) => {
+  // Let Copilot complete
+};</code></pre>
+    </div>
+  </div>
+
+  <!-- SESSION 2: FRAMEWORK -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">03</span><h2>Session 2 — Framework Deep Dive</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Build one complete, real endpoint or screen live</h3><span class="session-time">10:45–12:00 · 75 min</span></div>
+      <p>Facilitator live-codes the same conceptual feature per track — "list + create" for a resource — so every group sees the full loop: model → data layer → API/UI → test.</p>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Track Exercise — Full Vertical Slice</div>
+        <p><strong>Python:</strong> FastAPI CRUD endpoints for a Blog Post entity (id, title, content, author_id, timestamps) with validation, error handling, pagination.</p>
+        <p><strong>Java:</strong> Spring Boot REST controller + service + repository for the same Order entity from Session 1, with DTO validation and a global exception handler.</p>
+        <p><strong>React:</strong> A paginated, searchable list component consuming a mock API via the <code>useApi</code> hook built in Session 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3: TDD -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">04</span><h2>Session 3 — TDD with Copilot</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Tests as the spec; Copilot as the implementer</h3><span class="session-time">13:00–14:15 · 75 min</span></div>
+      <p>Demonstrate the Red-Green-Refactor loop live, then have every attendee run one full cycle themselves.</p>
+      <pre><code># RED — write the failing tests first
+class TestShoppingCart:
+    def test_add_item(self):
+        cart = ShoppingCart()
+        cart.add_item(Product("Widget", 10.00))
+        assert len(cart.items) == 1
+
+    def test_remove_item(self):
+        ...  # attendees fill in
+
+    def test_calculate_total(self):
+        ...
+
+    def test_apply_discount(self):
+        ...
+
+# GREEN — now let Copilot implement against the spec above
+class ShoppingCart:
+    """Shopping cart with discount support."""
+    # Copilot implements based on the tests it can see</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 7.1 — Run Your Own TDD Cycle</div>
+        <p>Pick one: a password validator, an email parser, or a pagination function. Write all tests first (including edge cases), then implement with Copilot, then refactor once green.</p>
+      </div>
+      <div class="callout callout-assignment">
+        <div class="callout-head">📝 Assignment 7 (due before Day 3) — Test Suite</div>
+        <p>Produce a suite of 50+ unit tests and 10+ integration tests across your track's stack, including mocking examples, fixtures, and explicit edge-case coverage.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 4: PATTERNS -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">05</span><h2>Session 4 — Design Patterns Sprint</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Named patterns get recognized instantly</h3><span class="session-time">14:30–15:45 · 75 min</span></div>
+      <div class="grid-3">
+        <div class="card"><h4>Creational</h4><p>Singleton · Factory · Builder · Prototype</p></div>
+        <div class="card"><h4>Structural</h4><p>Adapter · Decorator · Facade · Proxy</p></div>
+        <div class="card"><h4>Behavioral</h4><p>Strategy · Observer · Command · State</p></div>
+      </div>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 8.1 — Pattern Implementation</div>
+        <p>Each pair implements 3 patterns (one per category) in their track's language. Note how consistent Copilot's output is once you use the pattern name explicitly in the prompt versus describing the mechanics generically.</p>
+      </div>
+      <div class="callout callout-assignment">
+        <div class="callout-head">📝 Assignment 8 (due before Day 3) — Pattern Catalog</div>
+        <p>Implement all patterns above, in your track's language, with a one-paragraph "when to use this" note and a real example from your own codebase where it would apply.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 5: CODE REVIEW -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">06</span><h2>Session 5 — Code Review Calibration</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>How good is Copilot's automated review, on YOUR code?</h3><span class="session-time">15:45–16:30 · 45 min</span></div>
+      <p>Full detail: <code>copilot-instructions/agents/06-code-review.md</code> (preview of Day 3's agentic material).</p>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise — Calibration Pass</div>
+        <ol>
+          <li>Pick 5 recently merged PRs from a real repo</li>
+          <li>Request a Copilot review on each (open a fresh PR with the same diff if needed)</li>
+          <li>Mark every comment: "would have caught a real bug" / "correct but minor" / "not applicable"</li>
+          <li>Share the ratio as a group — this sets realistic expectations before Day 3's automation topics</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- WRAP UP -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">07</span><h2>Wrap-Up &amp; Homework</h2></div>
+    <div class="callout callout-assignment">
+      <div class="callout-head">📝 Language Project (due before Day 3)</div>
+      <p>Ship a small end-to-end project in your track (Python/Java/React) with 80%+ Copilot-generated code, documented prompts, and a passing test suite. This becomes raw material for Day 3's agentic exercises.</p>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-head">✅ Day 2 Checklist</div>
+      <ul>
+        <li>Every attendee completed one full vertical slice in their track</li>
+        <li>Every attendee ran at least one TDD cycle end to end</li>
+        <li>3 design patterns implemented per person, shared with the group</li>
+        <li>Code review calibration ratios captured for the team's own baseline</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day-footer-nav">
+    <a href="day1.html">← Day 1</a>
+    <a href="day3.html" class="primary">Continue to Day 3 →</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  GitHub Copilot Mastery System · Training Deck v1.0 · Day 2 of 3
+</footer>
+
+</body>
+</html>

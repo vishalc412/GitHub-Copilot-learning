@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Day 3 · Agentic Copilot — Copilot Mastery Training</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand"><span class="logo-dot"></span> Copilot Mastery Training</a>
+  <div class="day-tabs">
+    <a href="index.html">Overview</a>
+    <a href="day1.html">Day 1 · Foundations</a>
+    <a href="day2.html">Day 2 · Languages</a>
+    <a href="day3.html" class="active">Day 3 · Agents</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">DAY 3 OF 3 · CAPSTONE</span>
+    <h1>Agentic Copilot &amp; Multi-Agent Workflows</h1>
+    <p class="lede">
+      From "Copilot completes my line" to "Copilot completes my issue."
+      Today covers every agentic surface Copilot ships today — in-IDE
+      Agent Mode, the autonomous cloud coding agent, custom chat-mode
+      personas, MCP tool integration, and how to orchestrate several of
+      these together safely.
+    </p>
+    <div class="meta-row">
+      <span class="pill">🎯 Outcome: delegate 3+ issues end-to-end to the coding agent</span>
+      <span class="pill">📄 Reference: <code>copilot-instructions/agents/*.md</code></span>
+      <span class="pill">🔑 Requires: repo admin access for Actions/settings</span>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Day Agenda</h2></div>
+    <div class="agenda">
+      <div class="agenda-row">
+        <span class="agenda-time">09:00–09:15</span>
+        <div class="agenda-title">Recap &amp; Why Agents Matter<small>From autocomplete to autonomous task completion</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">09:15–10:15</span>
+        <div class="agenda-title">Session 1 — Agent Mode Deep Dive<small>Ask vs. Edit vs. Agent; goal-oriented prompting; guardrails</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">10:15–10:30</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">10:30–11:45</span>
+        <div class="agenda-title">Session 2 — The Coding Agent<small>Assigning issues, environment setup, reviewing agent PRs</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">11:45–12:45</span>
+        <div class="agenda-title">Lunch</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">12:45–13:45</span>
+        <div class="agenda-title">Session 3 — Custom Chat Modes<small>Architect, Reviewer, and team-specific personas</small></div>
+        <span class="agenda-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">13:45–14:45</span>
+        <div class="agenda-title">Session 4 — MCP &amp; Extensions<small>Connecting Copilot to real external tools and data</small></div>
+        <span class="agenda-tag tag-handson">Hands-On</span>
+      </div>
+      <div class="agenda-row break-row">
+        <span class="agenda-time">14:45–15:00</span>
+        <div class="agenda-title">Break</div>
+        <span class="agenda-tag tag-break">—</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">15:00–16:15</span>
+        <div class="agenda-title">Session 5 — Multi-Agent Workflows<small>Fan-out, pipelines, and failure modes to avoid</small></div>
+        <span class="agenda-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="agenda-row">
+        <span class="agenda-time">16:15–17:00</span>
+        <div class="agenda-title">Capstone Kickoff &amp; Certification<small>Project 3 assignment, certification paths, closing Q&amp;A</small></div>
+        <span class="agenda-tag tag-lecture">Lecture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1: AGENT MODE -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>Session 1 — Agent Mode Deep Dive</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Autonomous, multi-step editing inside your IDE</h3><span class="session-time">09:15–10:15 · 60 min</span></div>
+      <p>Reference: <code>copilot-instructions/agents/01-agent-mode.md</code></p>
+      <table class="data-table">
+        <tr><th>Mode</th><th>Scope</th><th>Autonomy</th><th>Best For</th></tr>
+        <tr><td>Ask</td><td>Read-only</td><td>None</td><td>"Explain this regex"</td></tr>
+        <tr><td>Edit</td><td>Files you add</td><td>Edits only</td><td>Precisely scoped multi-file edits</td></tr>
+        <tr><td>Agent</td><td>Whole workspace</td><td>Full — reads, edits, runs commands, self-corrects</td><td>"Add pagination and update the tests"</td></tr>
+      </table>
+      <p><strong>Key lesson:</strong> Agent Mode rewards goals with acceptance criteria, not step-by-step instructions.</p>
+      <pre><code>Context: Users report the login form submits twice on double-click.
+Goal: Fix the race condition.
+Constraints: Don't change the public API of the LoginForm component.
+Definition of done: A test reproduces the double-submit bug and passes;
+                     the existing auth test suite still passes.</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 9.1 — Your First Agent Mode Task</div>
+        <p>Run the prompt above (or an equivalent from your own codebase) in Agent Mode. Record: which files it opened before editing, whether it asked before running terminal commands, and whether it self-corrected after a failing test.</p>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-head">🛡️ Guardrails to Show Live</div>
+        <ul>
+          <li>Terminal command approval prompts</li>
+          <li>Per-file diff review before accepting</li>
+          <li>The undo checkpoint after a full agent turn</li>
+          <li>How <code>.github/copilot-instructions.md</code> and <code>.github/instructions/*.instructions.md</code> reduce bad edits</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 2: CODING AGENT -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">03</span><h2>Session 2 — The Coding Agent</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Issue in, pull request out — while you do something else</h3><span class="session-time">10:30–11:45 · 75 min</span></div>
+      <p>Reference: <code>copilot-instructions/agents/02-coding-agent.md</code></p>
+      <p>This is fundamentally different from Agent Mode: it runs remotely, asynchronously, in an isolated environment, and pushes commits to its own branch — like assigning work to a teammate.</p>
+      <div class="callout callout-info">
+        <div class="callout-head">⚙️ Environment Setup — Do This First</div>
+        <p>Before assigning any issue, verify <code>.github/workflows/copilot-setup-steps.yml</code> exists and the job is named exactly <code>copilot-setup-steps</code> — this is what GitHub runs to bootstrap the agent's environment (install deps, set up databases, etc). This repo ships a working example.</p>
+      </div>
+      <p><strong>The Strong Issue template</strong> — the single biggest lever for agent PR quality:</p>
+      <pre><code>## Problem
+[what's happening, with reproduction steps]
+
+## Expected behavior
+[what should happen instead]
+
+## Suggested approach
+[optional — a nudge in the right direction]
+
+## Acceptance criteria
+- [ ] Specific, checkable criterion 1
+- [ ] Specific, checkable criterion 2
+- [ ] Existing tests still pass</code></pre>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 9.2 — Delegate a Real Issue</div>
+        <ol>
+          <li>Write an issue using the template above, for a genuinely small task in your sandbox repo</li>
+          <li>Assign it to Copilot</li>
+          <li>Time: minutes to first commit, number of review rounds until mergeable</li>
+          <li>Review the draft PR exactly as you would a junior teammate's — comment inline, let it push fixes</li>
+        </ol>
+      </div>
+      <table class="data-table">
+        <tr><th>Good Fit</th><th>Bad Fit</th></tr>
+        <tr><td>Well-scoped bug fixes with repro steps</td><td>Vague "improve performance" asks</td></tr>
+        <tr><td>Adding tests to well-understood code</td><td>Novel architecture decisions</td></tr>
+        <tr><td>Mechanical refactors</td><td>Security-sensitive auth/crypto without expert review</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SESSION 3: CHAT MODES -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">04</span><h2>Session 3 — Custom Chat Modes</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Give the agent a job title, not just a task</h3><span class="session-time">12:45–13:45 · 60 min</span></div>
+      <p>Reference: <code>copilot-instructions/agents/03-custom-chat-modes.md</code> · working examples: <code>.github/chatmodes/architect.chatmode.md</code>, <code>.github/chatmodes/reviewer.chatmode.md</code></p>
+      <pre><code>---
+description: "Plans changes without editing files"
+tools: ["search", "usages"]
+---
+
+You are a staff engineer doing technical planning. Given a feature request:
+1. Identify affected files and modules
+2. List design options with tradeoffs
+3. Recommend one approach
+4. Output a step-by-step implementation plan
+
+Never edit files directly. Your output is a plan, not a diff.</code></pre>
+      <p><strong>Why restrict tools per mode:</strong> the single biggest source of "the agent did something I didn't want" is giving it more capability than the task needs. This is the principle of least privilege applied to agents.</p>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 9.3 — Ship a Team Persona</div>
+        <p>Design a custom chat mode for a role your team actually needs (e.g. "Migration Assistant" restricted to <code>migrations/</code>, always generating a rollback script). Have a teammate use it and report back.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 4: MCP -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">05</span><h2>Session 4 — MCP &amp; Extensions</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Give the agent eyes on your real systems</h3><span class="session-time">13:45–14:45 · 60 min</span></div>
+      <p>Reference: <code>copilot-instructions/agents/04-mcp-integration.md</code>, <code>05-extensions.md</code> · working example: <code>.vscode/mcp.json</code></p>
+      <pre><code>{
+  "servers": {
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": { "DATABASE_URL": "${input:database_url}" }
+    }
+  },
+  "inputs": [
+    { "id": "database_url", "type": "promptString",
+      "description": "Postgres connection string", "password": true }
+  ]
+}</code></pre>
+      <div class="callout callout-info">
+        <div class="callout-head">🔐 Security Checklist — Cover Before the Hands-On</div>
+        <ul>
+          <li>Use a read-only DB role/connection for any database MCP server</li>
+          <li>Never hardcode credentials in <code>mcp.json</code> — use the <code>inputs</code> prompt mechanism</li>
+          <li>Keep "confirm before running" enabled for write-capable tools</li>
+          <li>Only install MCP servers/extensions from trusted sources</li>
+        </ul>
+      </div>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 9.4 — Connect an MCP Server</div>
+        <p>Register a local read-only SQLite/Postgres MCP server against a sandbox database. Ask Agent Mode: "What columns does the orders table have, and write a function that queries orders by customer_id using our existing DB client pattern." Watch whether it inspects the schema via the tool before writing code.</p>
+      </div>
+      <p><strong>MCP vs. Extensions, in one line:</strong> MCP is what <em>you</em> wire up for your project's own tools; Extensions are published, org-installable integrations from vendors (or your platform team) invoked with <code>@extension-name</code>.</p>
+    </div>
+  </div>
+
+  <!-- SESSION 5: MULTI-AGENT -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">06</span><h2>Session 5 — Multi-Agent Workflows</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Treat Copilot's surfaces as a team of specialists</h3><span class="session-time">15:00–16:15 · 75 min</span></div>
+      <p>Reference: <code>copilot-instructions/agents/07-multi-agent-workflows.md</code></p>
+      <pre><code>                     ┌─────────────────────────┐
+                     │   YOU (orchestrator)     │
+                     └────────────┬────────────┘
+                                  │
+        ┌─────────────────────────┼─────────────────────────┐
+        ▼                         ▼                         ▼
+┌───────────────┐       ┌───────────────┐        ┌───────────────┐
+│ Coding agent   │       │ Coding agent   │        │ IDE Agent Mode │
+│ (Issue #101)   │       │ (Issue #104)   │        │ (you, live)    │
+└───────────────┘       └───────────────┘        └───────────────┘</code></pre>
+      <div class="grid-2">
+        <div class="card"><h4>Pattern 1 — Fan-Out</h4><p>Independent, well-scoped issues assigned to the coding agent in parallel. Each gets its own isolated branch — no collisions.</p></div>
+        <div class="card"><h4>Pattern 2 — Pipeline</h4><p>Architect mode plans → coding agent builds → Reviewer mode critiques the diff before a human ever looks at it.</p></div>
+        <div class="card"><h4>Pattern 3 — Human-in-the-Loop</h4><p>Checkpoint after the first pass before letting the agent continue — for higher-stakes changes.</p></div>
+        <div class="card"><h4>Pattern 4 — Specialist Ensemble</h4><p>Split a cross-domain task into sub-issues (migration, API, frontend) with explicit merge order.</p></div>
+      </div>
+      <div class="callout callout-exercise">
+        <div class="callout-head">🧪 Exercise 9.5 — Fan-Out Batch</div>
+        <p>Pick 3 small, genuinely independent issues. Write each with the Strong Issue template, assign all 3 to Copilot at once, and time how long until all 3 have reviewable draft PRs.</p>
+      </div>
+      <table class="data-table">
+        <tr><th>Failure Mode</th><th>Fix</th></tr>
+        <tr><td>Merge conflicts between parallel PRs</td><td>Confirm tasks are truly independent before fanning out</td></tr>
+        <tr><td>Agent completes the wrong thing</td><td>Always use explicit acceptance criteria</td></tr>
+        <tr><td>Inconsistent style across agent PRs</td><td>Strong shared <code>AGENTS.md</code> + <code>copilot-instructions.md</code></td></tr>
+        <tr><td>Silent scope creep</td><td>State constraints explicitly ("don't touch X")</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAPSTONE -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">07</span><h2>Capstone Kickoff &amp; Certification</h2></div>
+    <div class="session">
+      <div class="session-head"><h3>Project 3 — Agentic Workflow</h3><span class="session-time">16:15–17:00 · 45 min</span></div>
+      <div class="callout callout-assignment">
+        <div class="callout-head">📝 Capstone Assignment</div>
+        <p>On a real (or realistic sandbox) repo, deliver:</p>
+        <ul>
+          <li><code>AGENTS.md</code> and <code>.github/copilot-instructions.md</code> written for the repo</li>
+          <li>2+ path-specific <code>.github/instructions/*.instructions.md</code> files</li>
+          <li>1+ custom chat mode</li>
+          <li>Working <code>copilot-setup-steps.yml</code></li>
+          <li>3+ issues completed end-to-end by the coding agent</li>
+          <li>One documented multi-agent fan-out batch</li>
+          <li>One MCP server connected and used successfully</li>
+        </ul>
+        <p>Deliverable: the repo, plus a written retrospective — what worked, what failed, what you'd change.</p>
+      </div>
+      <table class="data-table">
+        <tr><th>Level</th><th>Requirement</th></tr>
+        <tr><td>Copilot User</td><td>Weeks 1–2 content + 1 project</td></tr>
+        <tr><td>Copilot Practitioner</td><td>Weeks 1–4 + 2 projects + 60% generation rate</td></tr>
+        <tr><td>Copilot Agentic Practitioner</td><td>This training + Project 3 + 3 issues delegated end-to-end</td></tr>
+        <tr><td>Copilot Expert</td><td>Everything above + design &amp; present a multi-agent pipeline + teach another developer</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="callout callout-tip">
+      <div class="callout-head">✅ Day 3 / Program Checklist</div>
+      <ul>
+        <li>Every attendee ran an Agent Mode task with acceptance criteria</li>
+        <li>Every attendee delegated at least 1 issue to the coding agent and reviewed the resulting PR</li>
+        <li>At least 1 custom chat mode shipped for the team</li>
+        <li>MCP server connected and demonstrated live</li>
+        <li>Fan-out batch run and timed</li>
+        <li>Capstone (Project 3) assigned with a clear due date</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day-footer-nav">
+    <a href="day2.html">← Day 2</a>
+    <a href="index.html" class="primary">Back to Overview</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  GitHub Copilot Mastery System · Training Deck v1.0 · Day 3 of 3
+</footer>
+
+</body>
+</html>
